@@ -31,7 +31,7 @@ export class KafkaProducerService {
 
   /**
    * Send a message to a topic
-   * @param topic - Topic name
+   * @param topic - Topic 
    * @param message - Message to send
    * @param key - Optional message key
    */
