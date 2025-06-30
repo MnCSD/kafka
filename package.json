@@ -8,7 +8,9 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "tsx src/test/testConnection.ts"
+    "test": "tsx src/test/testConnection.ts",
+    "monitor": "tsx src/examples/monitorFlowOutputs.ts",
+    "monitor-specific": "tsx src/examples/specificOrgMonitor.ts"
   },
   "dependencies": {
     "kafkajs": "^2.2.4"

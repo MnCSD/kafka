@@ -1,68 +1,61 @@
 import { KafkaAdminService } from './services/KafkaAdminService.js';
 import { KafkaConsumerService } from './services/KafkaConsumerService.js';
 import { KafkaProducerService } from './services/KafkaProducerService.js';
+import { KafkaOutputMonitor } from './services/KafkaOutputMonitor.js';
 import { defaultKafkaConfig, createKafkaConfig } from './config/kafkaConfig.js';
 
-// Example usage
+// Example usage focused on monitoring flow outputs
 async function main() {
   try {
-    // Create services with default config
-    const adminService = new KafkaAdminService(defaultKafkaConfig);
-    const consumerService = new KafkaConsumerService(defaultKafkaConfig);
-    const producerService = new KafkaProducerService(defaultKafkaConfig);
-
-    // Example: Get all flow topics
-    console.log('Getting all flow topics...');
-    const flowTopics = await adminService.getFlowTopics();
-    console.log('Flow topics found:', flowTopics);
-
-    // Example: Get topics for specific org-usr-node
-    const specificTopics = await adminService.getFlowTopics('myorg-myuser-mynode');
-    console.log('Specific topics found:', specificTopics);
-
-    // Example: Create a new flow topic
-    console.log('Creating new flow topic...');
-    await adminService.createFlowTopic('testorg-testuser-testnode');
-
-    // Example: Set up consumer
-    consumerService.on('message', (messageData) => {
-      console.log('Received message:', messageData);
-    });
-
-    consumerService.on('connected', () => {
-      console.log('Consumer is ready to receive messages');
-    });
-
-    // Subscribe to flow topics
-    await consumerService.subscribe(['testorg-testuser-testnode-topic']);
-
-    // Example: Send a message
-    await producerService.sendToFlowTopic('testorg-testuser-testnode', {
-      type: 'test',
-      data: 'Hello from Kafka service!',
-      timestamp: new Date().toISOString()
-    });
-
-    // Keep the process running
-    console.log('Kafka service is running. Press Ctrl+C to exit.');
+    console.log('🚀 Kafka Flow Output Service');
     
+    // Create output monitor
+    const monitor = new KafkaOutputMonitor(defaultKafkaConfig, 1000);
+
+    // Set up monitoring events
+    monitor.on('flow-output', (output) => {
+      console.log(`📥 Flow output from ${output.orgUsrNode}:`, {
+        topic: output.topic,
+        timestamp: output.timestamp,
+        hasData: !!output.data
+      });
+    });
+
+    monitor.on('monitoring-started', ({ topics }) => {
+      console.log(`✅ Monitoring ${topics.length} flow topics`);
+    });
+
+    // Start monitoring all flow topics
+    console.log('🔍 Starting flow output monitoring...');
+    await monitor.startMonitoring();
+
+    // Show status periodically
+    setInterval(() => {
+      const status = monitor.getMonitoringStatus();
+      if (status.totalOutputs > 0) {
+        console.log(`📊 Status: ${status.totalOutputs} outputs from ${status.topicCount} topics`);
+      }
+    }, 30000);
+
+    console.log('🎯 Service is running. Upload files and run NiFi flows to see outputs!');
+    console.log('💡 Press Ctrl+C to stop');
+
     // Graceful shutdown
     process.on('SIGINT', async () => {
-      console.log('Shutting down...');
-      await consumerService.disconnect();
-      await producerService.disconnect();
-      await adminService.disconnect();
+      console.log('\n🛑 Shutting down...');
+      await monitor.disconnect();
+      console.log('👋 Shutdown complete');
       process.exit(0);
     });
 
   } catch (error) {
-    console.error('Error in main:', error);
+    console.error('❌ Error in main:', error);
     process.exit(1);
   }
 }
 
 // Export services for use in other modules
-export { KafkaAdminService, KafkaConsumerService, KafkaProducerService };
+export { KafkaAdminService, KafkaConsumerService, KafkaProducerService, KafkaOutputMonitor };
 export { createKafkaConfig, defaultKafkaConfig } from './config/kafkaConfig.js';
 
 // Run main function if this file is executed directly
