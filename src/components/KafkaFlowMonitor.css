@@ -1,0 +1,248 @@
+.kafka-flow-monitor {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f9f9f9;
+  margin: 10px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  border-radius: 8px 8px 0 0;
+}
+
+.monitor-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.status-indicator.connected {
+  background-color: #4caf50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+.status-indicator.disconnected {
+  background-color: #f44336;
+}
+
+.topic-count {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: normal;
+}
+
+.monitor-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.expand-button:hover {
+  background-color: #e0e0e0;
+}
+
+.connect-button, .disconnect-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.connect-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.connect-button:hover {
+  background-color: #45a049;
+}
+
+.disconnect-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.disconnect-button:hover {
+  background-color: #da190b;
+}
+
+.error-message {
+  padding: 12px 16px;
+  background-color: #ffebee;
+  color: #c62828;
+  border-left: 4px solid #f44336;
+  margin: 0;
+}
+
+.monitor-content {
+  padding: 16px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.latest-output {
+  margin-bottom: 20px;
+}
+
+.latest-output h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.output-item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 8px;
+  transition: box-shadow 0.2s ease;
+}
+
+.output-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.org-usr-node {
+  font-weight: 600;
+  color: #1976d2;
+  background: #e3f2fd;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #666;
+  font-family: 'Courier New', monospace;
+}
+
+.output-topic {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.output-data {
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.output-data pre {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #333;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.controls button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.controls button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.controls button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.all-outputs h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.outputs-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .kafka-flow-monitor {
+    background: #2d2d2d;
+    border-color: #555;
+    color: #e0e0e0;
+  }
+
+  .monitor-header {
+    background: #3d3d3d;
+    border-color: #555;
+  }
+
+  .output-item {
+    background: #3d3d3d;
+    border-color: #555;
+  }
+
+  .output-data {
+    background: #2d2d2d;
+  }
+
+  .controls button {
+    background: #3d3d3d;
+    border-color: #555;
+    color: #e0e0e0;
+  }
+
+  .controls button:hover:not(:disabled) {
+    background: #4d4d4d;
+  }
+}
